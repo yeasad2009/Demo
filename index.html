@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Optional: Update Open Graph meta tags -->
+  <meta property="og:title" content="Welcome Page">
+  <meta property="og:description" content="Click to continue.">
+  <meta property="og:url" content="https://yourdomain.com/redirect">
+  <meta property="og:image" content="https://yourdomain.com/default-preview.png">
+  <meta property="og:type" content="website">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .spinner {
+      border: 8px solid #333;
+      border-top: 8px solid #fff;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    p {
+      font-size: 18px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <p>Loading... Please wait</p>
+
+  <script>
+    const adLinks = [
+      "https://www.example.com/ad1",
+      "https://www.example.com/ad2",
+      "https://www.example.com/ad3",
+      "https://www.example.com/ad4",
+      "https://www.example.com/ad5",
+      "https://www.example.com/ad6",
+      "https://www.example.com/ad7",
+      "https://www.example.com/ad8",
+      "https://www.example.com/ad9",
+      "https://www.example.com/ad10"
+    ];
+
+    const redirectURL = "https://www.example.com/final-destination";
+    let index = 0;
+
+    function fireImpression(link) {
+      const iframe = document.createElement("iframe");
+      iframe.src = link;
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+    }
+
+    function loadAds() {
+      if (index < adLinks.length) {
+        fireImpression(adLinks[index]);
+        index++;
+        setTimeout(loadAds, 200);
+      } else {
+        setTimeout(() => {
+          window.location.href = redirectURL;
+        }, 1000);
+      }
+    }
+
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", function () {
+      location.href = redirectURL;
+    });
+
+    window.onload = loadAds;
+  </script>
+</body>
+</html>
